@@ -68,11 +68,17 @@
 </head>
 <body class="text-slate-700">
 
-    <main class="container mx-auto p-4 md:p-8">
+    <main class="container mx-auto p-0 md:p-8">
 
-        <header class="text-center mb-8">
-            <h1 class="text-4xl md:text-5xl font-extrabold text-[#CC333F] mb-2">AI Opportunity Audit</h1>
-            <p class="text-2xl font-semibold text-[#00A0B0]">Sun Island Bali | Hospitality Sector</p>
+        <header class="relative mb-8 w-full">
+            <div class="relative w-full h-[400px] md:h-[500px] overflow-hidden">
+                <img src="assets/hero/sunislandbali.jpg" alt="Sun Island Bali" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-white"></div>
+            </div>
+            <div class="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
+                <h1 class="text-4xl md:text-6xl font-extrabold text-white drop-shadow-2xl mb-2">AI Opportunity Audit</h1>
+                <p class="text-2xl md:text-3xl font-semibold text-white drop-shadow-lg">Sun Island Bali | Hospitality Sector</p>
+            </div>
         </header>
 
         <section id="audio-summary" class="mb-12 max-w-2xl mx-auto">
@@ -196,12 +202,11 @@
         
         <section id="video-walkthrough" class="mb-16">
             <h2 class="text-3xl font-bold text-center mb-8 text-[#6A4A3C]">Video Walkthrough</h2>
-            <div class="bg-slate-800 rounded-lg shadow-xl aspect-video w-full max-w-4xl mx-auto flex items-center justify-center">
-                <!-- You can embed a video here, e.g., from YouTube or by using a <video> tag with a source from assets/video/video.mp4 -->
-                <div class="text-center">
-                    <div class="text-6xl text-white opacity-50">▶</div>
-                    <p class="text-slate-400 mt-4">Video walkthrough will be embedded here.</p>
-                </div>
+            <div class="bg-slate-800 rounded-lg shadow-xl aspect-video w-full max-w-4xl mx-auto overflow-hidden">
+                <video controls class="w-full h-full">
+                    <source src="assets/video/video.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
             </div>
         </section>
 
