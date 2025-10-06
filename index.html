@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sun Island Bali | Your Tech Check-Up Report</title>
+    <title>Sun Island Bali | AI Opportunity Score Report</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
@@ -28,7 +28,7 @@
             <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-black/20"></div>
             <img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?q=80&w=2538&auto=format&fit=crop" alt="Sun Island Bali Resort" class="w-full h-64 md:h-80 object-cover">
             <div class="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
-                <h1 class="text-4xl md:text-6xl font-extrabold text-white drop-shadow-2xl mb-2">Your Tech Check-Up Report</h1>
+                <h1 class="text-4xl md:text-6xl font-extrabold text-white drop-shadow-2xl mb-2">AI Opportunity Score Report</h1>
                 <p class="text-2xl md:text-3xl font-semibold text-white drop-shadow-lg">Sun Island Bali</p>
             </div>
         </header>
@@ -49,7 +49,7 @@
         <section id="executive-summary" class="mb-16 animate-on-scroll" style="transition-delay: 200ms;">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
                 <div class="bg-white rounded-lg shadow-xl p-8 flex flex-col justify-center items-center text-center h-full">
-                    <p class="text-lg font-semibold text-slate-500 mb-2">Your Overall Score</p>
+                    <p class="text-lg font-semibold text-slate-500 mb-2">AI Opportunity Score</p>
                     <p class="score-counter text-8xl font-black text-[#CC333F]" data-target="70">0</p>
                     <p class="text-lg font-semibold text-slate-500 mt-2">out of 100</p>
                     <div class="mt-4 w-full bg-gray-200 rounded-full h-4">
@@ -138,7 +138,66 @@
             </div>
         </section>
 
+        <section id="video-walkthrough" class="mb-16 animate-on-scroll">
+            <h2 class="text-3xl font-bold text-center mb-8 text-[#6A4A3C]">Video Walkthrough</h2>
+            <div class="bg-slate-800 rounded-lg shadow-xl aspect-video w-full max-w-4xl mx-auto overflow-hidden">
+                <video controls class="w-full h-full">
+                    <source src="assets/video/video.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </section>
+
+        <section id="downloads" class="mb-16 animate-on-scroll">
+            <h2 class="text-3xl font-bold text-center mb-8 text-[#6A4A3C]">Downloads & Resources</h2>
+            <div class="flex flex-col md:flex-row items-center justify-center gap-4">
+                <a href="assets/sun-island-bali.zip" download class="bg-[#EB6841] text-white font-bold py-3 px-6 rounded-lg text-center hover:bg-[#CC333F] transition duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+                    📥 Download All (.zip)
+                </a>
+                <a href="https://notebooklm.google.com/notebook/b0ad92c4-355b-47cf-96c9-c57cb81c20f1" target="_blank" rel="noopener noreferrer" class="bg-slate-700 text-white font-bold py-3 px-6 rounded-lg text-center hover:bg-slate-800 transition duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+                    📓 Access Interactive Notebook
+                </a>
+            </div>
+        </section>
+
+        <footer class="text-center text-sm text-slate-500 pt-8 border-t animate-on-scroll">
+            <p>This report was generated automatically by Good AI for Sun Island Bali.</p>
+        </footer>
+
     </main>
+
+    <!-- Chatbot Container -->
+    <div id="chatbot-container" class="fixed bottom-6 right-6 z-50">
+        <!-- Chatbot Toggle Button -->
+        <button id="chatbot-toggle" class="bg-[#00A0B0] text-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg hover:bg-[#008090] transition-all duration-300 focus:outline-none">
+            <span id="chatbot-icon-open">💬</span>
+            <span id="chatbot-icon-close" class="hidden">✕</span>
+        </button>
+        
+        <!-- Chatbot Window -->
+        <div id="chatbot-window" class="hidden absolute bottom-20 right-0 w-80 h-96 bg-white rounded-lg shadow-xl flex flex-col border border-gray-200">
+            <div class="bg-[#00A0B0] text-white p-4 rounded-t-lg flex justify-between items-center">
+                <h3 class="font-bold">Sun Island Assistant</h3>
+                <button id="chatbot-close" class="text-white hover:text-gray-200">
+                    ✕
+                </button>
+            </div>
+            <div id="chatbot-messages" class="flex-1 p-4 overflow-y-auto bg-gray-50">
+                <div class="mb-3">
+                    <div class="inline-block bg-[#00A0B0] text-white rounded-lg p-3 max-w-xs">
+                        Hello! I'm your Sun Island Bali assistant. How can I help you today?
+                    </div>
+                </div>
+            </div>
+            <div class="p-4 border-t border-gray-200">
+                <div class="flex">
+                    <input type="text" id="chatbot-input" placeholder="Ask about Sun Island Bali..." class="flex-1 border border-gray-300 rounded-l-lg p-2 focus:outline-none focus:ring-1 focus:ring-[#00A0B0]">
+                    <button id="chatbot-send" class="bg-[#00A0B0] text-white rounded-r-lg px-4 hover:bg-[#008090] transition-colors">
+                        Send
+                    </button>
+                </div>
+            </div>
+        </div>
 
     <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -281,6 +340,117 @@
             const clickX = e.clientX - rect.left;
             audioElement.currentTime = (clickX / rect.width) * audioElement.duration;
         });
+
+        // --- CHARTBOT FUNCTIONALITY ---
+        const chatbotToggle = document.getElementById('chatbot-toggle');
+        const chatbotWindow = document.getElementById('chatbot-window');
+        const chatbotClose = document.getElementById('chatbot-close');
+        const chatbotInput = document.getElementById('chatbot-input');
+        const chatbotSend = document.getElementById('chatbot-send');
+        const chatbotMessages = document.getElementById('chatbot-messages');
+        const chatbotIconOpen = document.getElementById('chatbot-icon-open');
+        const chatbotIconClose = document.getElementById('chatbot-icon-close');
+
+        // Toggle chatbot visibility
+        chatbotToggle.addEventListener('click', function() {
+            chatbotWindow.classList.toggle('hidden');
+            chatbotIconOpen.classList.toggle('hidden');
+            chatbotIconClose.classList.toggle('hidden');
+        });
+
+        // Close chatbot
+        chatbotClose.addEventListener('click', function() {
+            chatbotWindow.classList.add('hidden');
+            chatbotIconOpen.classList.remove('hidden');
+            chatbotIconClose.classList.add('hidden');
+        });
+
+        // Send message function
+        function sendMessage() {
+            const message = chatbotInput.value.trim();
+            if (message) {
+                // Add user message
+                addMessage(message, 'user');
+                chatbotInput.value = '';
+                
+                // Simulate bot thinking
+                setTimeout(() => {
+                    const response = getBotResponse(message);
+                    addMessage(response, 'bot');
+                }, 500);
+            }
+        }
+
+        // Add message to chat
+        function addMessage(text, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'mb-3';
+            
+            if (sender === 'user') {
+                messageDiv.innerHTML = `
+                    <div class="flex justify-end">
+                        <div class="inline-block bg-[#00A0B0] text-white rounded-lg p-3 max-w-xs">
+                            ${text}
+                        </div>
+                    </div>
+                `;
+            } else {
+                messageDiv.innerHTML = `
+                    <div class="inline-block bg-white border border-gray-200 rounded-lg p-3 max-w-xs">
+                        ${text}
+                    </div>
+                `;
+            }
+            
+            chatbotMessages.appendChild(messageDiv);
+            chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+        }
+
+        // Get bot response based on user input
+        function getBotResponse(message) {
+            const lowerMessage = message.toLowerCase();
+            
+            // Knowledge base responses based on the content of your site
+            if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes('hey')) {
+                return "Hello! Welcome to Sun Island Bali. How can I assist you today?";
+            } else if (lowerMessage.includes('score') || lowerMessage.includes('rating')) {
+                return "Sun Island Bali has an overall AI opportunity score of 70 out of 100. This indicates good foundational technology with clear opportunities for improvement, particularly in using customer data.";
+            } else if (lowerMessage.includes('customer') && lowerMessage.includes('data')) {
+                return "Using customer data is identified as your biggest opportunity area with a score of 56/100. Implementing systems to personalize offers and improve customer experience could significantly boost your performance.";
+            } else if (lowerMessage.includes('recommend') || lowerMessage.includes('improve')) {
+                return "The top 3 recommendations are: 1) Smart pricing based on demand, 2) Adding a 24/7 chat assistant (like me!), and 3) Showing relevant offers to different visitor types.";
+            } else if (lowerMessage.includes('website') || lowerMessage.includes('tech')) {
+                return "Your website technology scores 76/100 which is quite good. It's fast and secure, providing a solid foundation for adding new tools and features.";
+            } else if (lowerMessage.includes('booking') || lowerMessage.includes('business')) {
+                return "Your online booking system is a major strength with a score of 74/100, showing that your business operations are running well.";
+            } else if (lowerMessage.includes('thank')) {
+                return "You're welcome! Is there anything else I can help you with regarding Sun Island Bali?";
+            } else if (lowerMessage.includes('ai') || lowerMessage.includes('follow up') || lowerMessage.includes('contact') || lowerMessage.includes('good ai')) {
+                return "For more advanced AI solutions, you can follow up with good AI at hello@goodai.au";
+            } else {
+                // Default response when the bot doesn't know the answer
+                return "For more advanced AI solutions, you can follow up with good AI at hello@goodai.au";
+            }
+        }
+
+        // Event listeners for chat
+        chatbotSend.addEventListener('click', sendMessage);
+        
+        chatbotInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Add initial bot message
+        setTimeout(() => {
+            addMessage("I can answer questions about your AI opportunity score report, scores in different areas, and recommendations for improvement. What would you like to know?", 'bot');
+        }, 1000);
+        
+        // Add follow-up message after a delay
+        setTimeout(() => {
+            addMessage("For more advanced AI solutions, you can follow up with good AI at hello@goodai.au", 'bot');
+        }, 3000);
     });
     </script>
 </body>
