@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sun Island Bali - Tech Check-Up Report</title>
+    <title>Sun Island Bali - Enhanced Tech Check-Up Report</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
@@ -24,15 +24,32 @@
             border-radius: 10px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
+        /* Styles for scroll animations */
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* Style for hover effect on cards */
+        .recommendation-card {
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+        .recommendation-card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
     </style>
 </head>
 <body class="p-4 md:p-8">
 
     <div class="max-w-6xl mx-auto">
         
-        <!-- Header with Image -->
         <div class="relative mb-8 rounded-lg overflow-hidden">
-            <img src="assets/hero/sunislandbali.jpg" alt="Sun Island Bali" class="w-full h-64 md:h-96 object-cover">
+            <img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?q=80&w=2538&auto=format&fit=crop" alt="Sun Island Bali" class="w-full h-64 md:h-96 object-cover">
             <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
                 <div class="text-center text-white px-4">
                     <h1 class="text-4xl md:text-5xl font-bold mb-2">Your Tech Check-Up Report</h1>
@@ -41,8 +58,7 @@
             </div>
         </div>
 
-        <!-- Audio Player -->
-        <div class="mb-8 bg-white p-4 rounded-lg shadow-md">
+        <div class="mb-8 bg-white p-4 rounded-lg shadow-md fade-in-section">
             <p class="text-sm text-gray-600 mb-2">🎧 Listen to your report summary</p>
             <audio controls class="w-full">
                 <source src="assets/audio/audio.mp3" type="audio/mpeg">
@@ -50,42 +66,35 @@
             </audio>
         </div>
 
-        <!-- Your Score -->
-        <div class="score-box mb-8">
+        <div class="score-box mb-8 fade-in-section">
             <p class="text-gray-600 text-lg mb-2">YOUR OVERALL SCORE</p>
-            <p class="text-8xl font-bold text-red-600">70</p>
+            <p id="score-number" class="text-8xl font-bold text-orange-500">0</p>
             <p class="text-gray-600 text-lg mt-2">out of 100</p>
             <div class="mt-4 w-full bg-gray-200 rounded-full h-4">
-                <div class="bg-gradient-to-r from-yellow-400 to-orange-500 h-4 rounded-full" style="width: 70%"></div>
+                <div id="score-bar" class="bg-gradient-to-r from-yellow-400 to-orange-500 h-4 rounded-full" style="width: 0%"></div>
             </div>
-            <p class="mt-4 text-gray-700">You're doing pretty good! There are some easy ways to improve.</p>
+            <p id="score-message" class="mt-4 text-gray-700">Analyzing your score...</p>
         </div>
 
-        <!-- What We Checked (Simple List) -->
-        <div class="chart-box mb-8">
+        <div class="chart-box mb-8 fade-in-section">
             <h2 class="text-2xl font-bold mb-6 text-center">What We Checked</h2>
-            
             <div class="space-y-4">
                 <div class="border-l-4 border-green-500 pl-4 py-2">
                     <p class="font-bold text-lg">✓ Your Website Tech: 76/100</p>
                     <p class="text-gray-700">Your website loads fast and works on phones. Good job!</p>
                 </div>
-
                 <div class="border-l-4 border-green-500 pl-4 py-2">
                     <p class="font-bold text-lg">✓ How You Do Business: 74/100</p>
                     <p class="text-gray-700">Online booking works great. That saves you tons of time.</p>
                 </div>
-
                 <div class="border-l-4 border-blue-500 pl-4 py-2">
                     <p class="font-bold text-lg">⚠ Customer Experience: 71/100</p>
                     <p class="text-gray-700">Website looks nice but everyone sees the same thing. You could personalize it.</p>
                 </div>
-
                 <div class="border-l-4 border-orange-500 pl-4 py-2">
                     <p class="font-bold text-lg">⚠ Keeping Info Updated: 65/100</p>
                     <p class="text-gray-700">Most stuff is current, but your blog needs updates.</p>
                 </div>
-
                 <div class="border-l-4 border-red-500 pl-4 py-2">
                     <p class="font-bold text-lg">✗ Using Customer Data: 56/100</p>
                     <p class="text-gray-700">You collect info but don't use it. Big opportunity here!</p>
@@ -93,43 +102,40 @@
             </div>
         </div>
 
-        <!-- Visual Chart (Keep one simple chart) -->
-        <div class="chart-box mb-8">
+        <div class="chart-box mb-8 fade-in-section">
             <h3 class="text-xl font-bold text-center mb-4">Your Scores Ranked</h3>
             <canvas id="simpleChart" class="w-full" style="max-height: 300px;"></canvas>
         </div>
 
-        <!-- Top 3 Things To Fix -->
-        <div class="mb-8">
+        <div class="mb-8 fade-in-section">
             <h2 class="text-2xl font-bold mb-6 text-center">Top 3 Things To Fix</h2>
             <div class="grid md:grid-cols-3 gap-6">
                 
-                <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-red-500">
+                <div class="recommendation-card bg-white p-6 rounded-lg shadow-md border-t-4 border-red-500">
                     <div class="text-4xl mb-3">📈</div>
                     <h3 class="text-xl font-bold mb-2">1. Smart Pricing</h3>
-                    <p class="text-gray-700 mb-4">Automatically adjust room prices based on demand. Charge more when you're busy, less when you're slow.</p>
+                    <p class="text-gray-700 mb-4">Automatically adjust room prices based on demand. Charge more when busy, less when slow. <br><strong>Tool to try:</strong> PriceLabs or Wheelhouse.</p>
                     <div class="bg-red-100 text-red-700 font-bold p-2 rounded text-center">DO THIS FIRST</div>
                 </div>
 
-                <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-orange-500">
+                <div class="recommendation-card bg-white p-6 rounded-lg shadow-md border-t-4 border-orange-500">
                     <div class="text-4xl mb-3">🤖</div>
                     <h3 class="text-xl font-bold mb-2">2. Chat Helper</h3>
-                    <p class="text-gray-700 mb-4">Add a chatbot to answer common questions 24/7. Helps customers book faster without calling you.</p>
+                    <p class="text-gray-700 mb-4">Add a chatbot to answer common questions 24/7. This helps customers book faster without calling. <br><strong>Tool to try:</strong> Tidio or building your own with Voiceflow.</p>
                     <div class="bg-orange-100 text-orange-700 font-bold p-2 rounded text-center">DO THIS SOON</div>
                 </div>
 
-                <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-yellow-500">
+                <div class="recommendation-card bg-white p-6 rounded-lg shadow-md border-t-4 border-yellow-500">
                     <div class="text-4xl mb-3">🎯</div>
                     <h3 class="text-xl font-bold mb-2">3. Show Relevant Offers</h3>
-                    <p class="text-gray-700 mb-4">Show different stuff to different visitors. Families see family rooms, couples see romantic packages.</p>
+                    <p class="text-gray-700 mb-4">Show different offers to different visitors. Families see family rooms, couples see romantic packages. <br><strong>Concept:</strong> A/B testing tools or simple custom JavaScript.</p>
                     <div class="bg-yellow-100 text-yellow-800 font-bold p-2 rounded text-center">NICE TO HAVE</div>
                 </div>
 
             </div>
         </div>
 
-        <!-- Video Walkthrough -->
-        <div class="mb-8">
+        <div class="mb-8 fade-in-section">
             <h2 class="text-2xl font-bold mb-4 text-center">Video Explanation</h2>
             <div class="bg-black rounded-lg overflow-hidden">
                 <video controls class="w-full">
@@ -139,57 +145,113 @@
             </div>
         </div>
 
-        <!-- Downloads -->
-        <div class="mb-8 text-center">
+        <div class="mb-8 text-center fade-in-section">
             <h2 class="text-2xl font-bold mb-4">Download Your Reports</h2>
             <div class="flex flex-col md:flex-row gap-4 justify-center">
-                <a href="assets/report.pdf" download class="bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700">
+                <a href="assets/report.pdf" download class="bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors">
                     📄 Full Report (PDF)
                 </a>
-                <a href="assets/infographic.pdf" download class="bg-teal-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-teal-700">
+                <a href="assets/infographic.pdf" download class="bg-teal-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-teal-700 transition-colors">
                     📊 One-Page Summary (PDF)
                 </a>
-                <a href="https://notebooklm.google.com/notebook/b0ad92c4-355b-47cf-96c9-c57cb81c20f1" class="bg-gray-700 text-white font-bold py-3 px-6 rounded-lg hover:bg-gray-800">
+                <a href="https://notebooklm.google.com/notebook/b0ad92c4-355b-47cf-96c9-c57cb81c20f1" class="bg-gray-700 text-white font-bold py-3 px-6 rounded-lg hover:bg-gray-800 transition-colors">
                     📓 Interactive Notebook
                 </a>
             </div>
         </div>
 
         <footer class="text-center text-sm text-gray-500 pt-8 border-t">
-            <p>This report was created automatically by looking at your website.</p>
+            <p>This report was generated automatically by Good AI for Sun Island Bali.</p>
         </footer>
 
     </div>
 
     <script>
-        // Simple bar chart showing scores
-        const ctx = document.getElementById('simpleChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['Website Tech', 'Business Process', 'Customer Experience', 'Content Updates', 'Using Data'],
-                datasets: [{
-                    label: 'Your Score',
-                    data: [76, 74, 71, 65, 56],
-                    backgroundColor: ['#10b981', '#10b981', '#3b82f6', '#f59e0b', '#ef4444']
-                }]
-            },
-            options: {
-                indexAxis: 'y',
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    x: {
-                        beginAtZero: true,
-                        max: 100
+        document.addEventListener('DOMContentLoaded', function () {
+            // --- 1. Score Animation and Dynamic Messaging ---
+            const scoreNumberEl = document.getElementById('score-number');
+            const scoreBarEl = document.getElementById('score-bar');
+            const scoreMessageEl = document.getElementById('score-message');
+            const finalScore = 70; // The actual score
+            const animationDuration = 1500; // in milliseconds
+
+            function animateValue(obj, start, end, duration) {
+                let startTimestamp = null;
+                const step = (timestamp) => {
+                    if (!startTimestamp) startTimestamp = timestamp;
+                    const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                    obj.innerHTML = Math.floor(progress * (end - start) + start);
+                    if (progress < 1) {
+                        window.requestAnimationFrame(step);
                     }
-                },
-                plugins: {
-                    legend: {
-                        display: false
-                    }
-                }
+                };
+                window.requestAnimationFrame(step);
             }
+
+            animateValue(scoreNumberEl, 0, finalScore, animationDuration);
+            
+            // Animate progress bar
+            scoreBarEl.style.transition = `width ${animationDuration}ms ease-out`;
+            setTimeout(() => {
+                scoreBarEl.style.width = finalScore + '%';
+            }, 100);
+
+            // Set dynamic message and color based on score
+            if (finalScore >= 80) {
+                scoreMessageEl.textContent = "Excellent work! You're ahead of the curve.";
+                scoreNumberEl.classList.replace('text-orange-500', 'text-green-600');
+            } else if (finalScore >= 60) {
+                scoreMessageEl.textContent = "You're doing pretty good! There are some easy ways to improve.";
+                // Orange is default, no change needed
+            } else {
+                scoreMessageEl.textContent = "There are significant opportunities for improvement. Let's start with the basics.";
+                scoreNumberEl.classList.replace('text-orange-500', 'text-red-600');
+            }
+
+            // --- 2. Chart.js Implementation ---
+            const ctx = document.getElementById('simpleChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Website Tech', 'Business Process', 'Customer Experience', 'Content Updates', 'Using Data'],
+                    datasets: [{
+                        label: 'Your Score',
+                        data: [76, 74, 71, 65, 56],
+                        backgroundColor: ['#10b981', '#10b981', '#3b82f6', '#f59e0b', '#ef4444']
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: { beginAtZero: true, max: 100 }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    // Add animation delay for effect
+                    animation: {
+                        delay: 500,
+                    },
+                }
+            });
+
+            // --- 3. Scroll Animation ---
+            const sections = document.querySelectorAll('.fade-in-section');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, {
+                threshold: 0.1 // Trigger when 10% of the element is visible
+            });
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
         });
     </script>
 
