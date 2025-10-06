@@ -3,444 +3,195 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Opportunity Audit: Sun Island Bali</title>
+    <title>Sun Island Bali - Tech Check-Up Report</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #F0F4F8;
+            font-family: Inter, sans-serif;
+            background-color: #f5f5f5;
         }
-        .chart-container {
-            position: relative;
-            width: 100%;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-            height: 300px;
-            max-height: 400px;
-        }
-        @media (min-width: 768px) {
-            .chart-container {
-                height: 350px;
-            }
-        }
-        .flowchart-step {
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .score-box {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
             text-align: center;
-            border: 2px solid #00A0B0;
-            background-color: #ffffff;
-            color: #6A4A3C;
-            padding: 1rem;
-            border-radius: 0.5rem;
-            min-height: 80px;
-            font-weight: 600;
-            flex-grow: 1;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
-        .flowchart-arrow {
-            font-size: 2.5rem;
-            color: #EB6841;
-            padding: 0 1rem;
-            font-weight: bold;
-        }
-        #audio-player-container button {
-            transition: background-color 0.2s;
-        }
-        #progress-bar-container {
-            background-color: #e0e0e0;
-            border-radius: 9999px;
-            cursor: pointer;
-            width: 100%;
-            height: 8px;
-        }
-        #progress-bar {
-            background-color: #EB6841;
-            height: 8px;
-            border-radius: 9999px;
-            width: 0%;
+        .chart-box {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
     </style>
 </head>
-<body class="text-slate-700">
+<body class="p-4 md:p-8">
 
-    <main class="container mx-auto p-0 md:p-8">
-
-        <header class="relative mb-8 w-full">
-            <div class="relative w-full h-[400px] md:h-[500px] overflow-hidden">
-                <img src="assets/hero/sunislandbali.jpg" alt="Sun Island Bali" class="w-full h-full object-cover">
-                <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-white"></div>
-            </div>
-            <div class="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
-                <h1 class="text-4xl md:text-6xl font-extrabold text-white drop-shadow-2xl mb-2">AI Opportunity Audit</h1>
-                <p class="text-2xl md:text-3xl font-semibold text-white drop-shadow-lg">Sun Island Bali | Hospitality Sector</p>
-            </div>
-        </header>
-
-        <section id="audio-summary" class="mb-12 max-w-2xl mx-auto">
-             <div id="audio-player-container" class="w-full flex items-center gap-3 bg-white p-3 rounded-lg shadow-md">
-                <button id="play-pause-btn" class="bg-[#EB6841] text-white rounded-full w-10 h-10 flex-shrink-0 flex items-center justify-center text-xl hover:bg-[#CC333F] focus:outline-none">▶</button>
-                <div class="w-full">
-                    <div class="text-xs text-slate-500 mb-1">Audio Overview</div>
-                    <div id="progress-bar-container">
-                        <div id="progress-bar"></div>
-                    </div>
-                </div>
-                <div id="time-display" class="text-xs text-slate-500 font-mono w-20 text-right">0:00 / 0:00</div>
-            </div>
-        </section>
-
-        <section id="executive-summary" class="mb-16">
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
-                <div class="bg-white rounded-lg shadow-xl p-8 flex flex-col justify-center items-center text-center h-full">
-                    <p class="text-lg font-semibold text-slate-500 mb-2">Overall AI Opportunity Score</p>
-                    <p class="text-8xl font-black text-[#CC333F]">70</p>
-                    <p class="text-lg font-semibold text-slate-500 mt-2">out of 100</p>
-                    <div class="mt-4 w-full bg-gray-200 rounded-full h-4">
-                        <div class="bg-gradient-to-r from-[#EDC951] to-[#EB6841] h-4 rounded-full" style="width: 70%"></div>
-                    </div>
-                    <p class="mt-4 text-sm text-slate-600">This score indicates a solid digital presence with clear, high-impact opportunities for AI integration to boost performance.</p>
-                </div>
-                <div class="lg:col-span-2 bg-white rounded-lg shadow-xl p-6">
-                    <h3 class="text-xl font-bold text-center mb-4 text-[#6A4A3C]">Score Contribution by Dimension</h3>
-                    <p class="text-center text-sm text-slate-600 mb-4">This chart shows how each weighted dimension contributes to the final score, highlighting the importance of customer experience and operational processes in the hospitality industry.</p>
-                    <div class="chart-container h-80 md:h-96">
-                        <canvas id="scoreCompositionChart"></canvas>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="framework" class="mb-16 bg-white rounded-lg shadow-xl p-8">
-            <h2 class="text-3xl font-bold text-center mb-2 text-[#6A4A3C]">S2A Scoring Framework</h2>
-            <p class="text-center max-w-3xl mx-auto text-slate-600 mb-8">Our analysis is powered by the System 2 Attention (S2A) framework, ensuring every score is derived from observable evidence and rigorously challenged to mitigate bias and produce transparent, actionable insights.</p>
-            <div class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-4">
-                <div class="flowchart-step">1. Evidence Collection</div>
-                <div class="flowchart-arrow">&rarr;</div>
-                <div class="flowchart-step">2. Provisional Scoring</div>
-                <div class="flowchart-arrow">&rarr;</div>
-                <div class="flowchart-step">3. S2A Validation</div>
-                <div class="flowchart-arrow">&rarr;</div>
-                <div class="flowchart-step">4. Final Scoring</div>
-            </div>
-        </section>
-
-        <section id="dimensional-scoring" class="mb-16">
-            <h2 class="text-3xl font-bold text-center mb-8 text-[#6A4A3C]">Dimensional Scoring Breakdown</h2>
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <div class="bg-white rounded-lg shadow-xl p-6">
-                    <h3 class="text-xl font-bold text-center mb-4 text-[#6A4A3C]">Performance Radar</h3>
-                     <p class="text-center text-sm text-slate-600 mb-4">The radar chart provides a holistic view of Sun Island Bali's AI readiness, revealing a functional digital platform with a significant improvement opportunity in data utilization.</p>
-                    <div class="chart-container h-80 md:h-96">
-                        <canvas id="dimensionalRadarChart"></canvas>
-                    </div>
-                </div>
-                 <div class="bg-white rounded-lg shadow-xl p-6">
-                    <h3 class="text-xl font-bold text-center mb-4 text-[#6A4A3C]">Dimensional Ranking</h3>
-                    <p class="text-center text-sm text-slate-600 mb-4">This chart ranks each dimension by score, confirming that data utilization maturity is the most critical area for strategic investment and improvement.</p>
-                    <div class="chart-container h-80 md:h-96">
-                        <canvas id="dimensionalBarChart"></canvas>
-                    </div>
-                </div>
-            </div>
-             <div class="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="bg-white rounded-lg shadow-md p-6">
-                    <h4 class="font-bold text-lg text-[#00A0B0]">Technical Readiness</h4>
-                    <p class="text-3xl font-black text-slate-800 my-2">76 <span class="text-lg font-semibold text-slate-500">/ 100</span></p>
-                    <p class="text-sm text-slate-600">A responsive and secure website provides a solid technical foundation for integrating new AI tools and platforms.</p>
-                </div>
-                <div class="bg-white rounded-lg shadow-md p-6">
-                    <h4 class="font-bold text-lg text-[#00A0B0]">Operational Processes</h4>
-                    <p class="text-3xl font-black text-slate-800 my-2">74 <span class="text-lg font-semibold text-slate-500">/ 100</span></p>
-                    <p class="text-sm text-slate-600">The online booking engine is a key strength, indicating good operational maturity. AI can further optimize by automating customer service responses.</p>
-                </div>
-                <div class="bg-white rounded-lg shadow-md p-6">
-                    <h4 class="font-bold text-lg text-[#00A0B0]">Customer Experience</h4>
-                    <p class="text-3xl font-black text-slate-800 my-2">71 <span class="text-lg font-semibold text-slate-500">/ 100</span></p>
-                    <p class="text-sm text-slate-600">Good visuals and clear navigation create a functional user experience, but it lacks the personalization and support features of a top-tier site.</p>
-                </div>
-                 <div class="bg-white rounded-lg shadow-md p-6">
-                    <h4 class="font-bold text-lg text-[#EB6841]">Content Management</h4>
-                    <p class="text-3xl font-black text-slate-800 my-2">65 <span class="text-lg font-semibold text-slate-500">/ 100</span></p>
-                    <p class="text-sm text-slate-600">Core content is maintained, but inconsistent updates in sections like the blog suggest a basic management process. AI could help automate content refreshes.</p>
-                </div>
-                 <div class="bg-white rounded-lg shadow-md p-6">
-                    <h4 class="font-bold text-lg text-[#CC333F]">Data Utilization</h4>
-                    <p class="text-3xl font-black text-slate-800 my-2">56 <span class="text-lg font-semibold text-slate-500">/ 100</span></p>
-                    <p class="text-sm text-slate-600">A critical weakness. Data is collected but not visibly used for personalization, representing a major untapped opportunity for growth.</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="recommendations" class="mb-16">
-            <h2 class="text-3xl font-bold text-center mb-8 text-[#6A4A3C]">Top 3 AI Solution Recommendations</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="bg-white rounded-lg shadow-xl p-8 text-center border-t-4 border-[#CC333F]">
-                    <div class="text-4xl mb-4">📈</div>
-                    <h3 class="text-xl font-bold mb-2 text-slate-800">Dynamic Pricing Engine</h3>
-                    <p class="text-slate-600 mb-4">Leverage booking data and market trends to automatically adjust room rates, maximizing revenue and occupancy. This directly addresses the data utilization gap.</p>
-                    <div class="bg-red-100 text-[#CC333F] text-lg font-bold p-2 rounded-md">Priority: High</div>
-                </div>
-                <div class="bg-white rounded-lg shadow-xl p-8 text-center border-t-4 border-[#EB6841]">
-                    <div class="text-4xl mb-4">🤖</div>
-                    <h3 class="text-xl font-bold mb-2 text-slate-800">AI-Powered Chatbot</h3>
-                    <p class="text-slate-600 mb-4">Implement a 24/7 chatbot to answer common questions, assist with bookings, and qualify leads, directly improving customer experience and operational efficiency.</p>
-                    <div class="bg-orange-100 text-[#EB6841] text-lg font-bold p-2 rounded-md">Priority: High</div>
-                </div>
-                <div class="bg-white rounded-lg shadow-xl p-8 text-center border-t-4 border-[#EDC951]">
-                    <div class="text-4xl mb-4">🎯</div>
-                    <h3 class="text-xl font-bold mb-2 text-slate-800">Personalized Content System</h3>
-                    <p class="text-slate-600 mb-4">Use visitor data to dynamically showcase relevant offers, room types, and activities, increasing engagement and conversion rates by tailoring the experience.</p>
-                    <div class="bg-yellow-100 text-[#6A4A3C] text-lg font-bold p-2 rounded-md">Priority: Medium</div>
-                </div>
-            </div>
-        </section>
+    <div class="max-w-6xl mx-auto">
         
-        <section id="video-walkthrough" class="mb-16">
-            <h2 class="text-3xl font-bold text-center mb-8 text-[#6A4A3C]">Video Walkthrough</h2>
-            <div class="bg-slate-800 rounded-lg shadow-xl aspect-video w-full max-w-4xl mx-auto overflow-hidden">
-                <video controls class="w-full h-full">
+        <!-- Header with Image -->
+        <div class="relative mb-8 rounded-lg overflow-hidden">
+            <img src="assets/hero/sunislandbali.jpg" alt="Sun Island Bali" class="w-full h-64 md:h-96 object-cover">
+            <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+                <div class="text-center text-white px-4">
+                    <h1 class="text-4xl md:text-5xl font-bold mb-2">Your Tech Check-Up Report</h1>
+                    <p class="text-xl md:text-2xl">Sun Island Bali</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Audio Player -->
+        <div class="mb-8 bg-white p-4 rounded-lg shadow-md">
+            <p class="text-sm text-gray-600 mb-2">🎧 Listen to your report summary</p>
+            <audio controls class="w-full">
+                <source src="assets/audio/audio.mp3" type="audio/mpeg">
+                Your browser doesn't support audio.
+            </audio>
+        </div>
+
+        <!-- Your Score -->
+        <div class="score-box mb-8">
+            <p class="text-gray-600 text-lg mb-2">YOUR OVERALL SCORE</p>
+            <p class="text-8xl font-bold text-red-600">70</p>
+            <p class="text-gray-600 text-lg mt-2">out of 100</p>
+            <div class="mt-4 w-full bg-gray-200 rounded-full h-4">
+                <div class="bg-gradient-to-r from-yellow-400 to-orange-500 h-4 rounded-full" style="width: 70%"></div>
+            </div>
+            <p class="mt-4 text-gray-700">You're doing pretty good! There are some easy ways to improve.</p>
+        </div>
+
+        <!-- What We Checked (Simple List) -->
+        <div class="chart-box mb-8">
+            <h2 class="text-2xl font-bold mb-6 text-center">What We Checked</h2>
+            
+            <div class="space-y-4">
+                <div class="border-l-4 border-green-500 pl-4 py-2">
+                    <p class="font-bold text-lg">✓ Your Website Tech: 76/100</p>
+                    <p class="text-gray-700">Your website loads fast and works on phones. Good job!</p>
+                </div>
+
+                <div class="border-l-4 border-green-500 pl-4 py-2">
+                    <p class="font-bold text-lg">✓ How You Do Business: 74/100</p>
+                    <p class="text-gray-700">Online booking works great. That saves you tons of time.</p>
+                </div>
+
+                <div class="border-l-4 border-blue-500 pl-4 py-2">
+                    <p class="font-bold text-lg">⚠ Customer Experience: 71/100</p>
+                    <p class="text-gray-700">Website looks nice but everyone sees the same thing. You could personalize it.</p>
+                </div>
+
+                <div class="border-l-4 border-orange-500 pl-4 py-2">
+                    <p class="font-bold text-lg">⚠ Keeping Info Updated: 65/100</p>
+                    <p class="text-gray-700">Most stuff is current, but your blog needs updates.</p>
+                </div>
+
+                <div class="border-l-4 border-red-500 pl-4 py-2">
+                    <p class="font-bold text-lg">✗ Using Customer Data: 56/100</p>
+                    <p class="text-gray-700">You collect info but don't use it. Big opportunity here!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Visual Chart (Keep one simple chart) -->
+        <div class="chart-box mb-8">
+            <h3 class="text-xl font-bold text-center mb-4">Your Scores Ranked</h3>
+            <canvas id="simpleChart" class="w-full" style="max-height: 300px;"></canvas>
+        </div>
+
+        <!-- Top 3 Things To Fix -->
+        <div class="mb-8">
+            <h2 class="text-2xl font-bold mb-6 text-center">Top 3 Things To Fix</h2>
+            <div class="grid md:grid-cols-3 gap-6">
+                
+                <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-red-500">
+                    <div class="text-4xl mb-3">📈</div>
+                    <h3 class="text-xl font-bold mb-2">1. Smart Pricing</h3>
+                    <p class="text-gray-700 mb-4">Automatically adjust room prices based on demand. Charge more when you're busy, less when you're slow.</p>
+                    <div class="bg-red-100 text-red-700 font-bold p-2 rounded text-center">DO THIS FIRST</div>
+                </div>
+
+                <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-orange-500">
+                    <div class="text-4xl mb-3">🤖</div>
+                    <h3 class="text-xl font-bold mb-2">2. Chat Helper</h3>
+                    <p class="text-gray-700 mb-4">Add a chatbot to answer common questions 24/7. Helps customers book faster without calling you.</p>
+                    <div class="bg-orange-100 text-orange-700 font-bold p-2 rounded text-center">DO THIS SOON</div>
+                </div>
+
+                <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-yellow-500">
+                    <div class="text-4xl mb-3">🎯</div>
+                    <h3 class="text-xl font-bold mb-2">3. Show Relevant Offers</h3>
+                    <p class="text-gray-700 mb-4">Show different stuff to different visitors. Families see family rooms, couples see romantic packages.</p>
+                    <div class="bg-yellow-100 text-yellow-800 font-bold p-2 rounded text-center">NICE TO HAVE</div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Video Walkthrough -->
+        <div class="mb-8">
+            <h2 class="text-2xl font-bold mb-4 text-center">Video Explanation</h2>
+            <div class="bg-black rounded-lg overflow-hidden">
+                <video controls class="w-full">
                     <source src="assets/video/video.mp4" type="video/mp4">
-                    Your browser does not support the video tag.
+                    Your browser doesn't support video.
                 </video>
             </div>
-        </section>
+        </div>
 
-        <section id="downloads" class="mb-16">
-            <h2 class="text-3xl font-bold text-center mb-8 text-[#6A4A3C]">Downloads & Resources</h2>
-            <div class="flex flex-col md:flex-row items-center justify-center gap-4">
-                <a href="assets/report.pdf" download class="w-full md:w-auto bg-blue-600 text-white font-bold py-3 px-6 rounded-lg text-center hover:bg-blue-700 transition duration-300">Download Full Report (.pdf)</a>
-                <a href="assets/infographic.pdf" download class="w-full md:w-auto bg-teal-600 text-white font-bold py-3 px-6 rounded-lg text-center hover:bg-teal-700 transition duration-300">Download Infographic (.pdf)</a>
-                <!-- NOTE FOR KEV: Paste the personalized notebook link in the href attribute below -->
-                <a href="https://notebooklm.google.com/notebook/b0ad92c4-355b-47cf-96c9-c57cb81c20f1" class="w-full md:w-auto bg-slate-700 text-white font-bold py-3 px-6 rounded-lg text-center hover:bg-slate-800 transition duration-300">Access Personalized Notebook</a>
+        <!-- Downloads -->
+        <div class="mb-8 text-center">
+            <h2 class="text-2xl font-bold mb-4">Download Your Reports</h2>
+            <div class="flex flex-col md:flex-row gap-4 justify-center">
+                <a href="assets/report.pdf" download class="bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700">
+                    📄 Full Report (PDF)
+                </a>
+                <a href="assets/infographic.pdf" download class="bg-teal-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-teal-700">
+                    📊 One-Page Summary (PDF)
+                </a>
+                <a href="https://notebooklm.google.com/notebook/b0ad92c4-355b-47cf-96c9-c57cb81c20f1" class="bg-gray-700 text-white font-bold py-3 px-6 rounded-lg hover:bg-gray-800">
+                    📓 Interactive Notebook
+                </a>
             </div>
-        </section>
+        </div>
 
-        <footer class="text-center text-sm text-slate-500 pt-8 border-t">
-            <p>IA-AIOS-S2A Framework v2.0 | This is an automated assessment based on publicly available information. Confirmed: No SVG or Mermaid.js used in this document.</p>
+        <footer class="text-center text-sm text-gray-500 pt-8 border-t">
+            <p>This report was created automatically by looking at your website.</p>
         </footer>
 
-    </main>
+    </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            
-            const tooltipTitleCallback = {
+        // Simple bar chart showing scores
+        const ctx = document.getElementById('simpleChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Website Tech', 'Business Process', 'Customer Experience', 'Content Updates', 'Using Data'],
+                datasets: [{
+                    label: 'Your Score',
+                    data: [76, 74, 71, 65, 56],
+                    backgroundColor: ['#10b981', '#10b981', '#3b82f6', '#f59e0b', '#ef4444']
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        max: 100
+                    }
+                },
                 plugins: {
-                    tooltip: {
-                        callbacks: {
-                            title: function(tooltipItems) {
-                                const item = tooltipItems[0];
-                                let label = item.chart.data.labels[item.dataIndex];
-                                if (Array.isArray(label)) {
-                                  return label.join(' ');
-                                } else {
-                                  return label;
-                                }
-                            }
-                        }
+                    legend: {
+                        display: false
                     }
                 }
-            };
-
-            const wrapLabel = (label) => {
-                const maxLength = 16;
-                if (label.length <= maxLength) return label;
-                const words = label.split(' ');
-                const lines = [];
-                let currentLine = '';
-                words.forEach(word => {
-                    if ((currentLine + word).length > maxLength) {
-                        lines.push(currentLine.trim());
-                        currentLine = '';
-                    }
-                    currentLine += word + ' ';
-                });
-                lines.push(currentLine.trim());
-                return lines;
-            };
-
-            const radarLabels = [
-                'Customer Experience Optimization',
-                'Operational Process Indicators',
-                'Content Management Efficiency',
-                'Data Utilization Maturity',
-                'Technical Readiness'
-            ].map(wrapLabel);
-            
-            const chartColors = ['#00A0B0', '#6A4A3C', '#CC333F', '#EB6841', '#EDC951'];
-
-            const scoreCompositionCtx = document.getElementById('scoreCompositionChart').getContext('2d');
-            new Chart(scoreCompositionCtx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Customer Exp.', 'Operations', 'Content Mgt.', 'Data Utilization', 'Tech Readiness'],
-                    datasets: [{
-                        label: 'Score Contribution',
-                        data: [24.85, 22.2, 9.75, 5.6, 7.6],
-                        backgroundColor: chartColors,
-                        borderColor: '#FFFFFF',
-                        borderWidth: 2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    ...tooltipTitleCallback,
-                    plugins: {
-                        ...tooltipTitleCallback.plugins,
-                        legend: {
-                            position: 'bottom',
-                        }
-                    }
-                }
-            });
-
-            const dimensionalRadarCtx = document.getElementById('dimensionalRadarChart').getContext('2d');
-            new Chart(dimensionalRadarCtx, {
-                type: 'radar',
-                data: {
-                    labels: radarLabels,
-                    datasets: [{
-                        label: 'Sun Island Bali Score',
-                        data: [71, 74, 65, 56, 76],
-                        backgroundColor: 'rgba(235, 104, 65, 0.2)',
-                        borderColor: '#EB6841',
-                        pointBackgroundColor: '#EB6841',
-                        pointBorderColor: '#fff',
-                        pointHoverBackgroundColor: '#fff',
-                        pointHoverBorderColor: '#EB6841',
-                        borderWidth: 2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        r: {
-                            angleLines: {
-                                color: 'rgba(0, 0, 0, 0.1)'
-                            },
-                            grid: {
-                                color: 'rgba(0, 0, 0, 0.1)'
-                            },
-                            pointLabels: {
-                                font: {
-                                    size: 11
-                                }
-                            },
-                            suggestedMin: 0,
-                            suggestedMax: 100
-                        }
-                    },
-                    ...tooltipTitleCallback
-                }
-            });
-            
-            const dimensionalBarCtx = document.getElementById('dimensionalBarChart').getContext('2d');
-            new Chart(dimensionalBarCtx, {
-                type: 'bar',
-                data: {
-                    labels: ['Technical Readiness', 'Operational Processes', 'Customer Experience', 'Content Management', 'Data Utilization'],
-                    datasets: [{
-                        label: 'Score',
-                        data: [76, 74, 71, 65, 56],
-                        backgroundColor: [
-                            '#00A0B0', 
-                            '#00A0B0', 
-                            '#00A0B0', 
-                            '#EB6841', 
-                            '#CC333F'
-                        ],
-                        borderWidth: 0
-                    }]
-                },
-                options: {
-                    indexAxis: 'y',
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        x: {
-                           beginAtZero: true,
-                           suggestedMax: 100,
-                           grid: {
-                                display: false
-                           }
-                        },
-                        y: {
-                           grid: {
-                                display: false
-                           }
-                        }
-                    },
-                    ...tooltipTitleCallback,
-                    plugins: {
-                        ...tooltipTitleCallback.plugins,
-                        legend: {
-                            display: false
-                        }
-                    }
-                }
-            });
-
-            const audioElement = new Audio('assets/audio/audio.mp3');
-            const playPauseBtn = document.getElementById('play-pause-btn');
-            const progressBar = document.getElementById('progress-bar');
-            const progressBarContainer = document.getElementById('progress-bar-container');
-            const timeDisplay = document.getElementById('time-display');
-            
-            const formatTime = (seconds) => {
-                if (isNaN(seconds) || seconds < 0) return '0:00';
-                const minutes = Math.floor(seconds / 60);
-                const secs = Math.floor(seconds % 60);
-                return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
-            };
-
-            audioElement.addEventListener('loadedmetadata', () => {
-                timeDisplay.textContent = `${formatTime(0)} / ${formatTime(audioElement.duration)}`;
-            });
-             audioElement.addEventListener('error', () => {
-                timeDisplay.textContent = "Audio Error";
-            });
-            
-            playPauseBtn.addEventListener('click', () => {
-                if (audioElement.paused) {
-                    audioElement.play().catch(e => console.error("Audio play failed:", e));;
-                    playPauseBtn.innerHTML = '❚❚';
-                } else {
-                    audioElement.pause();
-                    playPauseBtn.innerHTML = '▶';
-                }
-            });
-
-            audioElement.addEventListener('timeupdate', () => {
-                const progress = (audioElement.currentTime / audioElement.duration) * 100;
-                progressBar.style.width = `${progress}%`;
-                timeDisplay.textContent = `${formatTime(audioElement.currentTime)} / ${formatTime(audioElement.duration)}`;
-            });
-
-            audioElement.addEventListener('ended', () => {
-                playPauseBtn.innerHTML = '▶';
-                progressBar.style.width = '0%';
-                audioElement.currentTime = 0;
-            });
-
-            progressBarContainer.addEventListener('click', (e) => {
-                const rect = progressBarContainer.getBoundingClientRect();
-                const clickX = e.clientX - rect.left;
-                const width = rect.width;
-                const duration = audioElement.duration;
-                if(isFinite(duration)){
-                    audioElement.currentTime = (clickX / width) * duration;
-                }
-            });
-
+            }
         });
     </script>
+
 </body>
 </html>
-
