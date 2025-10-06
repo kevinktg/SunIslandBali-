@@ -158,6 +158,20 @@
                     📓 Access Interactive Notebook
                 </a>
             </div>
+            <div class="flex flex-col md:flex-row items-center justify-center gap-4 mt-4">
+                <a href="assets/Sun-Island-bali-report.pdf" download class="bg-slate-200 text-slate-700 font-bold py-2 px-4 rounded-lg text-center hover:bg-slate-300 transition duration-300 shadow-sm hover:shadow-md transform hover:scale-105">
+                    📄 Download Report (.pdf)
+                </a>
+                <a href="assets/The Ai Opportunity Scoring Framework.pdf" download class="bg-slate-200 text-slate-700 font-bold py-2 px-4 rounded-lg text-center hover:bg-slate-300 transition duration-300 shadow-sm hover:shadow-md transform hover:scale-105">
+                    📄 Download Framework (.pdf)
+                </a>
+                <a href="assets/Our thinking Methodology_ I.A.O.I.S.pdf" download class="bg-slate-200 text-slate-700 font-bold py-2 px-4 rounded-lg text-center hover:bg-slate-300 transition duration-300 shadow-sm hover:shadow-md transform hover:scale-105">
+                    📄 Download Methodology (.pdf)
+                </a>
+                <a href="assets/infographic.pdf" download class="bg-slate-200 text-slate-700 font-bold py-2 px-4 rounded-lg text-center hover:bg-slate-300 transition duration-300 shadow-sm hover:shadow-md transform hover:scale-105">
+                    📄 Download Infographic (.pdf)
+                </a>
+            </div>
         </section>
 
         <footer class="text-center text-sm text-slate-500 pt-8 border-t animate-on-scroll">
@@ -166,7 +180,119 @@
 
     </main>
 
+    <!-- Chatbot UI -->
+    <div id="chatbot-container" class="fixed bottom-5 right-5">
+        <button id="chatbot-toggle" class="bg-[#EB6841] text-white rounded-full w-24 h-24 flex items-center justify-center text-3xl shadow-lg hover:bg-[#CC333F] transition-colors duration-300 focus:outline-none">
+            <img src="assets/gem.svg" alt="Chatbot Icon" class="w-20 h-20">
+        </button>
+        <div id="chatbot-window" class="hidden absolute bottom-20 right-0 w-80 bg-white rounded-lg shadow-2xl flex flex-col">
+            <div class="bg-slate-700 text-white p-4 rounded-t-lg">
+                <h3 class="font-bold text-lg">Sun Island Bali Assistant</h3>
+            </div>
+            <div id="chatbot-messages" class="flex-1 p-4 overflow-y-auto h-96"></div>
+            <div class="p-4 border-t">
+                <div class="flex">
+                    <input type="text" id="chatbot-input" class="flex-1 border rounded-l-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#EB6841]" placeholder="Ask a question...">
+                    <button id="chatbot-send" class="bg-[#EB6841] text-white px-4 rounded-r-lg hover:bg-[#CC333F] transition-colors duration-300">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
+    // Chatbot Knowledge Base
+    const knowledgeBase = {
+        "hello": "Hi there! How can I help you today?",
+        "hi": "Hi there! How can I help you today?",
+        "what is your name": "I am the Sun Island Bali Assistant.",
+        "who are you": "I am the Sun Island Bali Assistant.",
+        "what is the ai opportunity score": "The AI Opportunity Score for Sun Island Bali is 70 out of 100.",
+        "what are the top ai recommendations": "The top 3 AI recommendations are: 1. Smart Pricing, 2. Chat Helper, and 3. Show Relevant Offers.",
+        "what is the ai guest concierge chatbot": "The AI Guest Concierge Chatbot is a 24/7 robot helper to answer common questions and help customers book rooms faster.",
+        "what is the dynamic pricing engine": "The Dynamic Pricing Engine automatically changes room prices based on how busy the hotel is, helping to make more money when demand is high.",
+        "what is the hyper-personalization platform": "The Hyper-Personalization Platform shows different deals to different visitors. For example, families see family packages, and couples see romantic getaways.",
+        "what is the implementation plan": "The implementation plan is divided into three phases: Phase 1: Easy Wins (First Year) - AI Guest Concierge Chatbot. Phase 2: Making More Money (Years 1-2) - Dynamic Pricing Engine. Phase 3: Standing Out (Years 2-4) - Hyper-Personalization Platform.",
+        "what is system 1 thinking": "System 1 thinking is fast, instinctive, and automatic. It\'s like our brain\'s autopilot.",
+        "what is system 2 thinking": "System 2 thinking is slow, careful, and analytical. It\'s the part of your mind that makes choices and thinks things through.",
+        "how does the ai opportunity scoring framework work": "The AI Opportunity Scoring Framework assesses both the immediate appeal (System 1) and long-term strategic value (System 2) of AI projects to ensure a balanced and comprehensive analysis.",
+        "what are the key data sources for ai in the hotel industry": "Key data sources for AI in the hotel industry include Property Management System (PMS), Customer Relationship Management (CRM), Point of Sale (POS), Booking Engines & Website Analytics, Outside Data (competitor prices, flight info, local events, weather), and IoT Sensors.",
+        "what are the benefits of using ai in the hotel industry": "Benefits of using AI in the hotel industry include increased revenue, reduced costs, and happier guests.",
+        "what are the challenges of implementing ai in the hotel industry": "The biggest challenge for advanced AI in hotels is that data is scattered across different systems and doesn\'t talk to each other.",
+        "what is sun island bali": "Sun Island Bali is a resort group with several hotels in Kuta, Legian, and Seminyak. It focuses on giving guests a special, attentive experience with services like spas, restaurants, bars, and event spaces.",
+        "where are the sun island bali hotels located": "Sun Island Bali has several hotels in Kuta, Legian, and Seminyak.",
+        "what services does sun island bali offer": "Sun Island Bali offers services like spas, restaurants, bars, and event spaces.",
+        "how can i book a room at sun island bali": "You can book a room directly on the Sun Island Bali website.",
+        "what are the check-in and check-out times": "I can\'t provide real-time information on check-in and check-out times. Please check the Sun Island Bali website or contact the hotel directly.",
+        "does sun island bali have a spa": "Yes, Sun Island Bali offers spa services.",
+        "does sun island bali have restaurants": "Yes, Sun Island Bali has restaurants and bars.",
+        "does sun island bali have a loyalty program": "The documents mention a loyalty program, but I don\'t have specific details. Please check the Sun Island Bali website for more information.",
+        "what is the contact information for sun island bali": "You can find the contact information on the Sun Island Bali website: https://sunislandbali.com/",
+        "what is the weather like in bali": "I can\'t provide real-time weather information. Please check a weather website for the current forecast.",
+        "what are some things to do in bali": "Bali offers a wide range of activities, from beautiful beaches and temples to vibrant nightlife and delicious food. I recommend checking a travel guide for more information.",
+        "what is the currency in bali": "The currency in Bali is the Indonesian Rupiah (IDR).",
+        "do i need a visa to visit bali": "Visa requirements for Bali depend on your nationality. Please check with the Indonesian embassy or a travel website for the latest information.",
+        "is it safe to travel to bali": "Bali is generally a safe destination for tourists. However, it\'s always a good idea to take precautions and be aware of your surroundings.",
+        "thank you": "You\'re welcome! Is there anything else I can help you with?",
+        "thanks": "You\'re welcome! Is there anything else I can help you with?",
+        "bye": "Goodbye! Have a great day!",
+        "goodbye": "Goodbye! Have a great day!"
+    };
+
+    const chatbotToggle = document.getElementById('chatbot-toggle');
+    const chatbotWindow = document.getElementById('chatbot-window');
+    const chatbotMessages = document.getElementById('chatbot-messages');
+    const chatbotInput = document.getElementById('chatbot-input');
+    const chatbotSend = document.getElementById('chatbot-send');
+
+    chatbotToggle.addEventListener('click', () => {
+        chatbotWindow.classList.toggle('hidden');
+    });
+
+    const addMessage = (message, sender) => {
+        const messageElement = document.createElement('div');
+        messageElement.classList.add('p-2', 'rounded-lg', 'mb-2', 'max-w-[80%]');
+        if (sender === 'user') {
+            messageElement.classList.add('bg-slate-200', 'self-end', 'ml-auto');
+        } else {
+            messageElement.classList.add('bg-[#EB6841]', 'text-white', 'self-start', 'mr-auto');
+        }
+        messageElement.textContent = message;
+        chatbotMessages.appendChild(messageElement);
+        chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+    };
+
+    const getResponse = (userInput) => {
+        const lowerCaseInput = userInput.toLowerCase();
+        for (const key in knowledgeBase) {
+            if (lowerCaseInput.includes(key)) {
+                return knowledgeBase[key];
+            }
+        }
+        return "I\'m sorry, I don\'t understand. Can you please rephrase your question?";
+    };
+
+    const handleUserInput = () => {
+        const userInput = chatbotInput.value.trim();
+        if (userInput) {
+            addMessage(userInput, 'user');
+            const response = getResponse(userInput);
+            setTimeout(() => {
+                addMessage(response, 'bot');
+            }, 500);
+            chatbotInput.value = '';
+        }
+    };
+
+    chatbotSend.addEventListener('click', handleUserInput);
+    chatbotInput.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+            handleUserInput();
+        }
+    });
+
+    // Initial greeting
+    addMessage("Hi there! I\'m the Sun Island Bali Assistant. How can I help you?", 'bot');
+
     document.addEventListener('DOMContentLoaded', function () {
         
         // --- INTERSECTION OBSERVER FOR SCROLL ANIMATIONS ---
