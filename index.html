@@ -3,257 +3,285 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sun Island Bali - Enhanced Tech Check-Up Report</title>
+    <title>Sun Island Bali | Your Tech Check-Up Report</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        body {
-            font-family: Inter, sans-serif;
-            background-color: #f5f5f5;
-        }
-        .score-box {
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            text-align: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        .chart-box {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        /* Styles for scroll animations */
-        .fade-in-section {
+        /* A more refined animation for sections appearing on scroll */
+        .animate-on-scroll {
             opacity: 0;
             transform: translateY(20px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
         }
-        .is-visible {
+        .animate-on-scroll.is-visible {
             opacity: 1;
             transform: translateY(0);
         }
-        /* Style for hover effect on cards */
-        .recommendation-card {
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-        }
-        .recommendation-card:hover {
-            transform: scale(1.03);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-        }
+        .chart-container { position: relative; height: 100%; width: 100%; }
+        #progress-bar-container { background-color: #e5e7eb; border-radius: 9999px; cursor: pointer; padding: 2px; }
+        #progress-bar { height: 8px; background-color: #EB6841; border-radius: 9999px; width: 0%; transition: width 0.1s linear; }
     </style>
 </head>
-<body class="p-4 md:p-8">
+<body class="bg-slate-50 text-slate-700 font-sans">
+    <main class="max-w-7xl mx-auto p-4 md:p-8">
+        <header class="relative mb-12 rounded-lg overflow-hidden shadow-lg animate-on-scroll">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-black/20"></div>
+            <img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?q=80&w=2538&auto=format&fit=crop" alt="Sun Island Bali Resort" class="w-full h-64 md:h-80 object-cover">
+            <div class="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
+                <h1 class="text-4xl md:text-6xl font-extrabold text-white drop-shadow-2xl mb-2">Your Tech Check-Up Report</h1>
+                <p class="text-2xl md:text-3xl font-semibold text-white drop-shadow-lg">Sun Island Bali</p>
+            </div>
+        </header>
 
-    <div class="max-w-6xl mx-auto">
-        
-        <div class="relative mb-8 rounded-lg overflow-hidden">
-            <img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?q=80&w=2538&auto=format&fit=crop" alt="Sun Island Bali" class="w-full h-64 md:h-96 object-cover">
-            <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-                <div class="text-center text-white px-4">
-                    <h1 class="text-4xl md:text-5xl font-bold mb-2">Your Tech Check-Up Report</h1>
-                    <p class="text-xl md:text-2xl">Sun Island Bali</p>
+        <section id="audio-summary" class="mb-12 max-w-2xl mx-auto animate-on-scroll" style="transition-delay: 100ms;">
+            <div id="audio-player-container" class="w-full flex items-center gap-3 bg-white p-3 rounded-lg shadow-md">
+                <button id="play-pause-btn" class="bg-[#EB6841] text-white rounded-full w-10 h-10 flex-shrink-0 flex items-center justify-center text-xl hover:bg-[#CC333F] transition-colors duration-300 focus:outline-none">▶</button>
+                <div class="w-full">
+                    <div class="text-xs text-slate-500 mb-1">Listen to your report summary</div>
+                    <div id="progress-bar-container">
+                        <div id="progress-bar"></div>
+                    </div>
+                </div>
+                <div id="time-display" class="text-xs text-slate-500 font-mono w-20 text-right">0:00 / 0:00</div>
+            </div>
+        </section>
+
+        <section id="executive-summary" class="mb-16 animate-on-scroll" style="transition-delay: 200ms;">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+                <div class="bg-white rounded-lg shadow-xl p-8 flex flex-col justify-center items-center text-center h-full">
+                    <p class="text-lg font-semibold text-slate-500 mb-2">Your Overall Score</p>
+                    <p class="score-counter text-8xl font-black text-[#CC333F]" data-target="70">0</p>
+                    <p class="text-lg font-semibold text-slate-500 mt-2">out of 100</p>
+                    <div class="mt-4 w-full bg-gray-200 rounded-full h-4">
+                        <div class="progress-bar-animated bg-gradient-to-r from-[#EDC951] to-[#EB6841] h-4 rounded-full" style="width: 0%" data-width="70"></div>
+                    </div>
+                    <p class="mt-4 text-sm text-slate-600">You're doing pretty good! This report shows some clear and easy ways to improve with new tech.</p>
+                </div>
+                <div class="lg:col-span-2 bg-white rounded-lg shadow-xl p-6">
+                    <h3 class="text-xl font-bold text-center mb-4 text-[#6A4A3C]">Where Your Score Comes From</h3>
+                    <p class="text-center text-sm text-slate-600 mb-4">This chart shows how much each area affects your total score. The areas with the biggest slices have the most impact.</p>
+                    <div class="chart-container h-80 md:h-96">
+                        <canvas id="scoreCompositionChart"></canvas>
+                    </div>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <div class="mb-8 bg-white p-4 rounded-lg shadow-md fade-in-section">
-            <p class="text-sm text-gray-600 mb-2">🎧 Listen to your report summary</p>
-            <audio controls class="w-full">
-                <source src="assets/audio/audio.mp3" type="audio/mpeg">
-                Your browser doesn't support audio.
-            </audio>
-        </div>
-
-        <div class="score-box mb-8 fade-in-section">
-            <p class="text-gray-600 text-lg mb-2">YOUR OVERALL SCORE</p>
-            <p id="score-number" class="text-8xl font-bold text-orange-500">0</p>
-            <p class="text-gray-600 text-lg mt-2">out of 100</p>
-            <div class="mt-4 w-full bg-gray-200 rounded-full h-4">
-                <div id="score-bar" class="bg-gradient-to-r from-yellow-400 to-orange-500 h-4 rounded-full" style="width: 0%"></div>
-            </div>
-            <p id="score-message" class="mt-4 text-gray-700">Analyzing your score...</p>
-        </div>
-
-        <div class="chart-box mb-8 fade-in-section">
-            <h2 class="text-2xl font-bold mb-6 text-center">What We Checked</h2>
-            <div class="space-y-4">
-                <div class="border-l-4 border-green-500 pl-4 py-2">
-                    <p class="font-bold text-lg">✓ Your Website Tech: 76/100</p>
-                    <p class="text-gray-700">Your website loads fast and works on phones. Good job!</p>
+        <section id="dimensional-scoring" class="mb-16 animate-on-scroll">
+            <h2 class="text-3xl font-bold text-center mb-8 text-[#6A4A3C]">Your Scores in Each Area</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="bg-white rounded-lg shadow-xl p-6">
+                    <h3 class="text-xl font-bold text-center mb-4 text-[#6A4A3C]">Your Strengths at a Glance</h3>
+                    <p class="text-center text-sm text-slate-600 mb-4">This chart gives a quick look at all your scores. It shows you're doing well but could improve how you use customer info.</p>
+                    <div class="chart-container h-80 md:h-96">
+                        <canvas id="dimensionalRadarChart"></canvas>
+                    </div>
                 </div>
-                <div class="border-l-4 border-green-500 pl-4 py-2">
-                    <p class="font-bold text-lg">✓ How You Do Business: 74/100</p>
-                    <p class="text-gray-700">Online booking works great. That saves you tons of time.</p>
-                </div>
-                <div class="border-l-4 border-blue-500 pl-4 py-2">
-                    <p class="font-bold text-lg">⚠ Customer Experience: 71/100</p>
-                    <p class="text-gray-700">Website looks nice but everyone sees the same thing. You could personalize it.</p>
-                </div>
-                <div class="border-l-4 border-orange-500 pl-4 py-2">
-                    <p class="font-bold text-lg">⚠ Keeping Info Updated: 65/100</p>
-                    <p class="text-gray-700">Most stuff is current, but your blog needs updates.</p>
-                </div>
-                <div class="border-l-4 border-red-500 pl-4 py-2">
-                    <p class="font-bold text-lg">✗ Using Customer Data: 56/100</p>
-                    <p class="text-gray-700">You collect info but don't use it. Big opportunity here!</p>
+                <div class="bg-white rounded-lg shadow-xl p-6">
+                    <h3 class="text-xl font-bold text-center mb-4 text-[#6A4A3C]">Your Scores, Ranked</h3>
+                    <p class="text-center text-sm text-slate-600 mb-4">This chart ranks your scores from highest to lowest. It clearly shows that using customer data is the biggest opportunity for you.</p>
+                    <div class="chart-container h-80 md:h-96">
+                        <canvas id="dimensionalBarChart"></canvas>
+                    </div>
                 </div>
             </div>
-        </div>
-
-        <div class="chart-box mb-8 fade-in-section">
-            <h3 class="text-xl font-bold text-center mb-4">Your Scores Ranked</h3>
-            <canvas id="simpleChart" class="w-full" style="max-height: 300px;"></canvas>
-        </div>
-
-        <div class="mb-8 fade-in-section">
-            <h2 class="text-2xl font-bold mb-6 text-center">Top 3 Things To Fix</h2>
-            <div class="grid md:grid-cols-3 gap-6">
-                
-                <div class="recommendation-card bg-white p-6 rounded-lg shadow-md border-t-4 border-red-500">
-                    <div class="text-4xl mb-3">📈</div>
-                    <h3 class="text-xl font-bold mb-2">1. Smart Pricing</h3>
-                    <p class="text-gray-700 mb-4">Automatically adjust room prices based on demand. Charge more when busy, less when slow. <br><strong>Tool to try:</strong> PriceLabs or Wheelhouse.</p>
-                    <div class="bg-red-100 text-red-700 font-bold p-2 rounded text-center">DO THIS FIRST</div>
+            <div class="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+                <div class="bg-white rounded-lg shadow-md p-6 group hover:shadow-xl transition-shadow duration-300 animate-on-scroll">
+                    <h4 class="font-bold text-lg text-[#00A0B0]">Website Tech</h4>
+                    <p class="text-3xl font-black text-slate-800 my-2"><span class="score-counter" data-target="76">0</span> <span class="text-lg font-semibold text-slate-500">/ 100</span></p>
+                    <p class="text-sm text-slate-600">Your website is fast and secure. This is a great foundation for adding new tools.</p>
                 </div>
-
-                <div class="recommendation-card bg-white p-6 rounded-lg shadow-md border-t-4 border-orange-500">
-                    <div class="text-4xl mb-3">🤖</div>
-                    <h3 class="text-xl font-bold mb-2">2. Chat Helper</h3>
-                    <p class="text-gray-700 mb-4">Add a chatbot to answer common questions 24/7. This helps customers book faster without calling. <br><strong>Tool to try:</strong> Tidio or building your own with Voiceflow.</p>
-                    <div class="bg-orange-100 text-orange-700 font-bold p-2 rounded text-center">DO THIS SOON</div>
+                <div class="bg-white rounded-lg shadow-md p-6 group hover:shadow-xl transition-shadow duration-300 animate-on-scroll" style="transition-delay: 100ms;">
+                    <h4 class="font-bold text-lg text-[#00A0B0]">How You Do Business</h4>
+                    <p class="text-3xl font-black text-slate-800 my-2"><span class="score-counter" data-target="74">0</span> <span class="text-lg font-semibold text-slate-500">/ 100</span></p>
+                    <p class="text-sm text-slate-600">Your online booking system is a major strength and shows your business runs well.</p>
                 </div>
-
-                <div class="recommendation-card bg-white p-6 rounded-lg shadow-md border-t-4 border-yellow-500">
-                    <div class="text-4xl mb-3">🎯</div>
-                    <h3 class="text-xl font-bold mb-2">3. Show Relevant Offers</h3>
-                    <p class="text-gray-700 mb-4">Show different offers to different visitors. Families see family rooms, couples see romantic packages. <br><strong>Concept:</strong> A/B testing tools or simple custom JavaScript.</p>
-                    <div class="bg-yellow-100 text-yellow-800 font-bold p-2 rounded text-center">NICE TO HAVE</div>
+                <div class="bg-white rounded-lg shadow-md p-6 group hover:shadow-xl transition-shadow duration-300 animate-on-scroll" style="transition-delay: 200ms;">
+                    <h4 class="font-bold text-lg text-[#00A0B0]">Customer Experience</h4>
+                    <p class="text-3xl font-black text-slate-800 my-2"><span class="score-counter" data-target="71">0</span> <span class="text-lg font-semibold text-slate-500">/ 100</span></p>
+                    <p class="text-sm text-slate-600">Your site looks good and is easy to use, but doesn't yet offer personalized deals to visitors.</p>
                 </div>
-
+                <div class="bg-white rounded-lg shadow-md p-6 group hover:shadow-xl transition-shadow duration-300 animate-on-scroll" style="transition-delay: 300ms;">
+                    <h4 class="font-bold text-lg text-[#EB6841]">Keeping Info Updated</h4>
+                    <p class="text-3xl font-black text-slate-800 my-2"><span class="score-counter" data-target="65">0</span> <span class="text-lg font-semibold text-slate-500">/ 100</span></p>
+                    <p class="text-sm text-slate-600">Your main info is current, but your blog isn't updated regularly. New tech could help with this.</p>
+                </div>
+                <div class="bg-white rounded-lg shadow-md p-6 group hover:shadow-xl transition-shadow duration-300 animate-on-scroll" style="transition-delay: 400ms;">
+                    <h4 class="font-bold text-lg text-[#CC333F]">Using Customer Data</h4>
+                    <p class="text-3xl font-black text-slate-800 my-2"><span class="score-counter" data-target="56">0</span> <span class="text-lg font-semibold text-slate-500">/ 100</span></p>
+                    <p class="text-sm text-slate-600">This is your biggest opportunity. You collect customer info but aren't using it to improve your business yet.</p>
+                </div>
             </div>
-        </div>
+        </section>
 
-        <div class="mb-8 fade-in-section">
-            <h2 class="text-2xl font-bold mb-4 text-center">Video Explanation</h2>
-            <div class="bg-black rounded-lg overflow-hidden">
-                <video controls class="w-full">
-                    <source src="assets/video/video.mp4" type="video/mp4">
-                    Your browser doesn't support video.
-                </video>
+        <section id="recommendations" class="mb-16 animate-on-scroll">
+            <h2 class="text-3xl font-bold text-center mb-8 text-[#6A4A3C]">Top 3 Things To Fix</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white rounded-lg shadow-xl p-8 text-center border-t-4 border-[#CC333F] group hover:scale-105 transition-transform duration-300">
+                    <div class="text-4xl mb-4 group-hover:scale-125 transition-transform duration-300">📈</div>
+                    <h3 class="text-xl font-bold mb-2 text-slate-800">1. Smart Pricing</h3>
+                    <p class="text-slate-600 mb-4">Automatically change room prices based on how busy you are. This helps you make more money when demand is high.</p>
+                    <div class="bg-red-100 text-[#CC333F] text-lg font-bold p-2 rounded-md">Do This First</div>
+                </div>
+                <div class="bg-white rounded-lg shadow-xl p-8 text-center border-t-4 border-[#EB6841] group hover:scale-105 transition-transform duration-300">
+                    <div class="text-4xl mb-4 group-hover:scale-125 transition-transform duration-300">🤖</div>
+                    <h3 class="text-xl font-bold mb-2 text-slate-800">2. Chat Helper</h3>
+                    <p class="text-slate-600 mb-4">Add a 24/7 robot helper to your site to answer common questions and help customers book rooms faster.</p>
+                    <div class="bg-orange-100 text-[#EB6841] text-lg font-bold p-2 rounded-md">Do This Soon</div>
+                </div>
+                <div class="bg-white rounded-lg shadow-xl p-8 text-center border-t-4 border-[#EDC951] group hover:scale-105 transition-transform duration-300">
+                    <div class="text-4xl mb-4 group-hover:scale-125 transition-transform duration-300">🎯</div>
+                    <h3 class="text-xl font-bold mb-2 text-slate-800">3. Show Relevant Offers</h3>
+                    <p class="text-slate-600 mb-4">Show different deals to different visitors. Families see family packages; couples see romantic getaways.</p>
+                    <div class="bg-yellow-100 text-[#6A4A3C] text-lg font-bold p-2 rounded-md">Nice To Have</div>
+                </div>
             </div>
-        </div>
+        </section>
 
-        <div class="mb-8 text-center fade-in-section">
-            <h2 class="text-2xl font-bold mb-4">Download Your Reports</h2>
-            <div class="flex flex-col md:flex-row gap-4 justify-center">
-                <a href="assets/report.pdf" download class="bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors">
-                    📄 Full Report (PDF)
-                </a>
-                <a href="assets/infographic.pdf" download class="bg-teal-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-teal-700 transition-colors">
-                    📊 One-Page Summary (PDF)
-                </a>
-                <a href="https://notebooklm.google.com/notebook/b0ad92c4-355b-47cf-96c9-c57cb81c20f1" class="bg-gray-700 text-white font-bold py-3 px-6 rounded-lg hover:bg-gray-800 transition-colors">
-                    📓 Interactive Notebook
-                </a>
-            </div>
-        </div>
-
-        <footer class="text-center text-sm text-gray-500 pt-8 border-t">
-            <p>This report was generated automatically by Good AI for Sun Island Bali.</p>
-        </footer>
-
-    </div>
+    </main>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // --- 1. Score Animation and Dynamic Messaging ---
-            const scoreNumberEl = document.getElementById('score-number');
-            const scoreBarEl = document.getElementById('score-bar');
-            const scoreMessageEl = document.getElementById('score-message');
-            const finalScore = 70; // The actual score
-            const animationDuration = 1500; // in milliseconds
+    document.addEventListener('DOMContentLoaded', function () {
+        
+        // --- INTERSECTION OBSERVER FOR SCROLL ANIMATIONS ---
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    
+                    const counters = entry.target.querySelectorAll('.score-counter');
+                    counters.forEach(counter => animateCounter(counter));
 
-            function animateValue(obj, start, end, duration) {
-                let startTimestamp = null;
-                const step = (timestamp) => {
-                    if (!startTimestamp) startTimestamp = timestamp;
-                    const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-                    obj.innerHTML = Math.floor(progress * (end - start) + start);
-                    if (progress < 1) {
-                        window.requestAnimationFrame(step);
-                    }
-                };
-                window.requestAnimationFrame(step);
-            }
-
-            animateValue(scoreNumberEl, 0, finalScore, animationDuration);
-            
-            // Animate progress bar
-            scoreBarEl.style.transition = `width ${animationDuration}ms ease-out`;
-            setTimeout(() => {
-                scoreBarEl.style.width = finalScore + '%';
-            }, 100);
-
-            // Set dynamic message and color based on score
-            if (finalScore >= 80) {
-                scoreMessageEl.textContent = "Excellent work! You're ahead of the curve.";
-                scoreNumberEl.classList.replace('text-orange-500', 'text-green-600');
-            } else if (finalScore >= 60) {
-                scoreMessageEl.textContent = "You're doing pretty good! There are some easy ways to improve.";
-                // Orange is default, no change needed
-            } else {
-                scoreMessageEl.textContent = "There are significant opportunities for improvement. Let's start with the basics.";
-                scoreNumberEl.classList.replace('text-orange-500', 'text-red-600');
-            }
-
-            // --- 2. Chart.js Implementation ---
-            const ctx = document.getElementById('simpleChart').getContext('2d');
-            new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: ['Website Tech', 'Business Process', 'Customer Experience', 'Content Updates', 'Using Data'],
-                    datasets: [{
-                        label: 'Your Score',
-                        data: [76, 74, 71, 65, 56],
-                        backgroundColor: ['#10b981', '#10b981', '#3b82f6', '#f59e0b', '#ef4444']
-                    }]
-                },
-                options: {
-                    indexAxis: 'y',
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        x: { beginAtZero: true, max: 100 }
-                    },
-                    plugins: {
-                        legend: { display: false }
-                    },
-                    // Add animation delay for effect
-                    animation: {
-                        delay: 500,
-                    },
+                    const progressBars = entry.target.querySelectorAll('.progress-bar-animated');
+                    progressBars.forEach(bar => {
+                        bar.style.width = bar.dataset.width + '%';
+                        bar.style.transition = 'width 1.5s ease-in-out';
+                    });
+                    observer.unobserve(entry.target);
                 }
             });
+        }, { threshold: 0.1 });
 
-            // --- 3. Scroll Animation ---
-            const sections = document.querySelectorAll('.fade-in-section');
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('is-visible');
-                    }
-                });
-            }, {
-                threshold: 0.1 // Trigger when 10% of the element is visible
-            });
+        document.querySelectorAll('.animate-on-scroll').forEach(section => observer.observe(section));
 
-            sections.forEach(section => {
-                observer.observe(section);
-            });
+        // --- SCORE COUNTER ANIMATION ---
+        const animateCounter = (counter) => {
+            const target = +counter.dataset.target;
+            if (counter.animated) return;
+            counter.animated = true;
+            let current = 0;
+            const increment = target / 100;
+            const updateCounter = () => {
+                current += increment;
+                if (current < target) {
+                    counter.innerText = Math.ceil(current);
+                    requestAnimationFrame(updateCounter);
+                } else {
+                    counter.innerText = target;
+                }
+            };
+            updateCounter();
+        };
+
+        // --- CHART.JS CONFIGURATION ---
+        const chartColors = ['#00A0B0', '#6A4A3C', '#CC333F', '#EB6841', '#EDC951'];
+        Chart.defaults.font.family = 'sans-serif';
+
+        const scoreCompositionCtx = document.getElementById('scoreCompositionChart').getContext('2d');
+        new Chart(scoreCompositionCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Customer Exp.', 'How You Do Business', 'Using Customer Data', 'Keeping Info Updated', 'Website Tech'],
+                datasets: [{
+                    label: 'Score Contribution',
+                    data: [24.85, 22.2, 5.6, 9.75, 7.6],
+                    backgroundColor: chartColors,
+                    borderColor: '#FFFFFF',
+                    borderWidth: 3
+                }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false, cutout: '60%',
+                plugins: { legend: { position: 'bottom' } },
+                animation: { duration: 1500, easing: 'easeOutQuart' }
+            }
         });
-    </script>
 
+        const dimensionalRadarCtx = document.getElementById('dimensionalRadarChart').getContext('2d');
+        new Chart(dimensionalRadarCtx, {
+            type: 'radar',
+            data: {
+                labels: ['Customer Exp.', 'How You Do Business', 'Keeping Info Updated', 'Using Customer Data', 'Website Tech'],
+                datasets: [{
+                    label: 'Your Score',
+                    data: [71, 74, 65, 56, 76],
+                    backgroundColor: 'rgba(235, 104, 65, 0.2)',
+                    borderColor: '#EB6841',
+                    pointBackgroundColor: '#EB6841',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                scales: { r: { beginAtZero: true, suggestedMax: 100, pointLabels: { font: { size: 11 } } } },
+                animation: { duration: 1500, easing: 'easeOutQuart' }
+            }
+        });
+        
+        const dimensionalBarCtx = document.getElementById('dimensionalBarChart').getContext('2d');
+        new Chart(dimensionalBarCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Website Tech', 'How You Do Business', 'Customer Exp.', 'Keeping Info Updated', 'Using Customer Data'],
+                datasets: [{
+                    label: 'Score',
+                    data: [76, 74, 71, 65, 56],
+                    backgroundColor: ['#00A0B0', '#00A0B0', '#00A0B0', '#EB6841', '#CC333F'],
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+                scales: { x: { beginAtZero: true, suggestedMax: 100, grid: { display: false } }, y: { grid: { display: false } } },
+                plugins: { legend: { display: false } },
+                animation: { duration: 1500, easing: 'easeOutQuart', delay: 200 }
+            }
+        });
+
+        // --- CUSTOM AUDIO PLAYER ---
+        const audioElement = new Audio('assets/audio/audio.mp3');
+        const playPauseBtn = document.getElementById('play-pause-btn');
+        const progressBar = document.getElementById('progress-bar');
+        const progressBarContainer = document.getElementById('progress-bar-container');
+        const timeDisplay = document.getElementById('time-display');
+        
+        const formatTime = (s) => (s = Math.floor(s), `${Math.floor(s/60)}:${('0'+s%60).slice(-2)}`);
+        
+        audioElement.addEventListener('loadedmetadata', () => {
+            timeDisplay.textContent = `0:00 / ${formatTime(audioElement.duration)}`;
+        });
+        
+        playPauseBtn.addEventListener('click', () => {
+            if (audioElement.paused) {
+                audioElement.play();
+                playPauseBtn.innerHTML = '❚❚';
+            } else {
+                audioElement.pause();
+                playPauseBtn.innerHTML = '▶';
+            }
+        });
+
+        audioElement.addEventListener('timeupdate', () => {
+            progressBar.style.width = `${(audioElement.currentTime / audioElement.duration) * 100}%`;
+            timeDisplay.textContent = `${formatTime(audioElement.currentTime)} / ${formatTime(audioElement.duration)}`;
+        });
+
+        progressBarContainer.addEventListener('click', (e) => {
+            const rect = progressBarContainer.getBoundingClientRect();
+            const clickX = e.clientX - rect.left;
+            audioElement.currentTime = (clickX / rect.width) * audioElement.duration;
+        });
+    });
+    </script>
 </body>
 </html>
